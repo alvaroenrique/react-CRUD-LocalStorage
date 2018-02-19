@@ -24,7 +24,7 @@ class App extends Component {
     this.state = {
       products: JSON.parse(localStorage.getItem('products'))
     };
-
+    this.onAdd = this.onAdd.bind(this);
     this.onDelete = this.onDelete.bind(this);
   }
 
@@ -45,15 +45,20 @@ class App extends Component {
     this.setState({ products: filterProducts });
   }
 
-  onAdd(){
-    
+  onAdd(name, price){
+    const products = this.getProducts();
+    products.push({
+      name,
+      price
+    });
+    this.setState({products})
   }
 
   render() {
     return (
       <div className="App">
         <h1>Products Manajers</h1>
-        <AddItem />
+        <AddItem onAdd = {this.onAdd}/>
         {
           this.state.products.map(product => {
             return (

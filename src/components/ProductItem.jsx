@@ -6,11 +6,16 @@ class ProductItem extends Component {
         super(props);
 
         this.onDelete = this.onDelete.bind(this);
+        this.onEdit = this.onEdit.bind(this);
     }
     
     onDelete(){
         const {name, onDelete} = this.props;
         onDelete(name)
+    }
+
+    onEdit(){
+        
     }
 
     render() {
@@ -22,6 +27,8 @@ class ProductItem extends Component {
                 <span>{name}</span>
                 {' | '}
                 <span>{price}</span>
+                {' | '}     
+                <button onClick={this.onEdit}>Editar</button>
                 {' | '}
                 <button onClick={this.onDelete}>Eliminar</button>
             </div>
