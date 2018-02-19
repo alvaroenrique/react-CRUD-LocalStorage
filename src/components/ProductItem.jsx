@@ -5,8 +5,13 @@ class ProductItem extends Component {
     constructor(props){
         super(props);
 
+        this.state = {
+            isEdit: false
+        };
+
         this.onDelete = this.onDelete.bind(this);
         this.onEdit = this.onEdit.bind(this);
+        this.onEditSubmit = this.onEditSubmit.bind(this);
     }
     
     onDelete(){
@@ -15,7 +20,13 @@ class ProductItem extends Component {
     }
 
     onEdit(){
-        
+        this.setState({isEdit: true})
+    }
+    onEditSubmit(event){
+        event.preventDefault();
+        this.props.onEditSubmit(this.nameInput.value, this.priceInput.value, this.props.name);
+
+        this.setState({isEdit: false});
     }
 
     render() {
@@ -24,13 +35,28 @@ class ProductItem extends Component {
 
         return (
             <div>
-                <span>{name}</span>
-                {' | '}
-                <span>{price}</span>
-                {' | '}     
-                <button onClick={this.onEdit}>Editar</button>
-                {' | '}
-                <button onClick={this.onDelete}>Eliminar</button>
+                {
+                    this.state.isEdit
+                    ? (
+                        <form onSubmit={this.onEditSubmit}>
+                            <input type="text" placeholder="Nombre" ref={nameInput => this.nameInput = nameInput} defaultValue={name}/>
+                            <input type="text" placeholder="Price" ref={priceInput => this.priceInput = priceInput} defaultValue = {price}/>
+                            <button>Guardar</button>
+                        </form>
+                    )
+                    : (
+                        <div>
+                            <span>{name}</span>
+                            {' | '}
+                            <span>{price}</span>
+                            {' | '}     
+                            <button onClick={this.onEdit}>Editar</button>
+                            {' | '}
+                            <button onClick={this.onDelete}>Eliminar</button>
+                        </div>
+                    )
+                }
+                
             </div>
         );
     }
